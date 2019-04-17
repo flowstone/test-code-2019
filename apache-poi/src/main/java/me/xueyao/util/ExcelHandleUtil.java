@@ -75,7 +75,11 @@ public class ExcelHandleUtil {
                         rowMap.put(cellIndex, cell.getBooleanCellValue());
                         break;
                     case NUMERIC:
-                        rowMap.put(cellIndex, cell.getNumericCellValue());
+                        if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                            rowMap.put(cellIndex, cell.getDateCellValue());
+                        } else {
+                            rowMap.put(cellIndex, cell.getNumericCellValue());
+                        }
                         break;
                     case _NONE:
                     case BLANK:
