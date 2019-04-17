@@ -46,10 +46,10 @@ public class ExcelHandleUtil {
         int lastRowNum = sheet.getLastRowNum();
         HashMap<Integer, Map<Integer, Object>> map = new HashMap<>(16);
         //遍历工作表的行数
-        for (int rowIndex = 0; rowIndex < lastRowNum; rowIndex++) {
+        for (int rowIndex = 0; rowIndex <= lastRowNum; rowIndex++) {
             Row currentRow = sheet.getRow(rowIndex);
             if (null == sheet.getRow(rowIndex)) {
-                break;
+                continue;
             }
             //列数总和
             int lastCellNum = (int) currentRow.getLastCellNum();
@@ -58,7 +58,7 @@ public class ExcelHandleUtil {
             //遍历每行的列数
             for (int cellIndex = 0; cellIndex < lastCellNum; cellIndex++) {
                 if (null == currentRow.getCell(cellIndex)) {
-                    break;
+                    continue;
                 }
 
                 //判断当前列内容数据的类型
@@ -76,6 +76,7 @@ public class ExcelHandleUtil {
                     case BLANK:
                     case ERROR:
                     case FORMULA:
+
                         rowMap.put(cellIndex, "");
                         break;
                     default:
