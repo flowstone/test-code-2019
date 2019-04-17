@@ -1,11 +1,13 @@
 package me.xueyao.util;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,8 @@ import org.springframework.util.StringUtils;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,21 +66,21 @@ public class ExcelHandleUtil {
                 }
 
                 //判断当前列内容数据的类型
+                Cell cell = currentRow.getCell(cellIndex);
                 switch (currentRow.getCell(cellIndex).getCellType()) {
                     case STRING:
-                        rowMap.put(cellIndex, currentRow.getCell(cellIndex).getStringCellValue().trim());
+                        rowMap.put(cellIndex, cell.getStringCellValue().trim());
                         break;
                     case BOOLEAN:
-                        rowMap.put(cellIndex, currentRow.getCell(cellIndex).getBooleanCellValue());
+                        rowMap.put(cellIndex, cell.getBooleanCellValue());
                         break;
                     case NUMERIC:
-                        rowMap.put(cellIndex, currentRow.getCell(cellIndex).getNumericCellValue());
+                        rowMap.put(cellIndex, cell.getNumericCellValue());
                         break;
                     case _NONE:
                     case BLANK:
                     case ERROR:
                     case FORMULA:
-
                         rowMap.put(cellIndex, "");
                         break;
                     default:
