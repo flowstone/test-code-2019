@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,9 +77,16 @@ public class ExcelHandleUtil {
                         break;
                     case NUMERIC:
                         if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                            //时间格式
                             rowMap.put(cellIndex, cell.getDateCellValue());
                         } else {
-                            rowMap.put(cellIndex, cell.getNumericCellValue());
+                            //数字格式 转成字符串(去掉0和处理科学计数法)
+                            NumberFormat instance = NumberFormat.getInstance();
+                            String number = instance.format(cell.getNumericCellValue());
+                            if (0 <= number.indexOf(",")) {
+                                number = number.replace(",", "");
+                            }
+                            rowMap.put(cellIndex, number);
                         }
                         break;
                     case _NONE:
