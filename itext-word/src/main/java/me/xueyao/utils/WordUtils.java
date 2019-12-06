@@ -9,7 +9,6 @@ import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.io.FileOutputStream;
@@ -18,17 +17,14 @@ import java.io.FileOutputStream;
  * @author Simon.Xue
  * @date 2019-12-04 21:47
  **/
-@Component
 @Getter
 @Setter
 public class WordUtils {
     private Document document;
     private BaseFont bfChinese;
 
-
     public WordUtils() {
-        //设置纸张大小
-        this.document = new Document(PageSize.A4);
+        document = new Document(PageSize.A4);
     }
 
     /**
@@ -130,7 +126,7 @@ public class WordUtils {
         context.setSpacingBefore(1);
         //设置第一行空的列数
         context.setFirstLineIndent(20);
-        document.add(context);
+        this.document.add(context);
     }
 
     /**
@@ -199,5 +195,6 @@ public class WordUtils {
      */
     public void closeDocument() {
         this.document.close();
+        document = null;
     }
 }
